@@ -17,6 +17,7 @@ import {
   auth,
   withTimeout,
   requireAdmin,
+  requireUser,
   formatMoney,
   actionFingerprint,
   DB_TIMEOUT,
@@ -1029,7 +1030,7 @@ export async function toggleTransactionCredit(
   chequePayeeName?: string,
 ) {
   return safeCall(async () => {
-    await requireAdmin();
+    await requireUser();
     const txn = await prisma.transaction.findUniqueOrThrow({ where: { id } });
     if (isCredit === txn.isCredit && creditDueDate === undefined) {
       return txn;
