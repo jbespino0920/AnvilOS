@@ -1145,10 +1145,14 @@ export async function deleteTransaction(id: number) {
 }
 
 export async function getDailySales(date?: string) {
-  const start = date ? new Date(date) : new Date();
-  start.setHours(0, 0, 0, 0);
-  const end = new Date(start);
-  end.setDate(end.getDate() + 1);
+  const phDateStr = date || (() => {
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const ph = new Date(utc + 8 * 3600000);
+    return `${ph.getFullYear()}-${String(ph.getMonth() + 1).padStart(2, "0")}-${String(ph.getDate()).padStart(2, "0")}`;
+  })();
+  const start = phMidnight(phDateStr);
+  const end = phEndOfDay(phDateStr);
 
   const result = await prisma.transaction.aggregate({
     where: {

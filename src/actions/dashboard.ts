@@ -11,9 +11,18 @@ Last Update Date: July 23, 2026
 import { prisma } from "./_shared";
 import { phMidnight, phEndOfDay } from "@/lib/format";
 
+function toPHDateString(date: Date): string {
+  const utc = date.getTime() + date.getTimezoneOffset() * 60000;
+  const ph = new Date(utc + 8 * 3600000);
+  const y = ph.getFullYear();
+  const m = String(ph.getMonth() + 1).padStart(2, "0");
+  const d = String(ph.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
 export async function getDashboardKpis() {
   const now = new Date();
-  const phDateStr = now.toLocaleDateString("en-CA"); // YYYY-MM-DD in local tz
+  const phDateStr = toPHDateString(now);
   const today = phMidnight(phDateStr);
   const tomorrow = phEndOfDay(phDateStr);
 
