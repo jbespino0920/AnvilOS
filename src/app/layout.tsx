@@ -7,21 +7,24 @@ Last Update Date: July 16, 2026
 */
 
 import type { Metadata } from "next";
-import { JetBrains_Mono, Montserrat } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
+const montserrat = localFont({
+  src: [
+    { path: "../../public/fonts/Montserrat/Montserrat-Regular.ttf", weight: "400" },
+    { path: "../../public/fonts/Montserrat/Montserrat-SemiBold.ttf", weight: "600" },
+    { path: "../../public/fonts/Montserrat/Montserrat-Black.ttf", weight: "900" },
+  ],
   variable: "--font-sans",
-  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
+const jetbrainsMono = localFont({
+  src: "../../public/fonts/JetBrainsMono-Regular.ttf",
+  weight: "400",
   variable: "--font-jetbrains-mono",
-  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -48,6 +51,13 @@ export default function RootLayout({
       className={cn("font-sans", montserrat.variable)}
       style={{ overflowX: "clip" }}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var _ric=window.requestIdleCallback;if(_ric){window.requestIdleCallback=function(cb,opts){return _ric.call(window,function(deadline){try{cb(deadline)}catch(e){console.warn("[web-vitals] suppressed:",e.message)}},opts)}}})();`,
+          }}
+        />
+      </head>
       <body
         className={`${jetbrainsMono.variable} antialiased`}
         style={{ overflowX: "clip" }}

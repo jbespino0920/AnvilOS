@@ -21,20 +21,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
   useEffect(() => {
-    const handler = (e: ErrorEvent) => {
-      if (
-        typeof e.message === "string" &&
-        e.message.includes("startTime")
-      ) {
-        e.stopImmediatePropagation();
-        e.preventDefault();
-      }
-    };
-    window.addEventListener("error", handler, { capture: true });
-    return () => window.removeEventListener("error", handler, { capture: true });
-  }, []);
-
-  useEffect(() => {
     if (isAuthPage) {
       document.documentElement.classList.remove("dark");
       setTheme("light");
