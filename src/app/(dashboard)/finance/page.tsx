@@ -738,7 +738,7 @@ export default function FinancePage() {
             <div className="mt-2">
               {cashFlowTimeline.length > 0 ? (
                 <div className="h-[360px]">
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height={360}>
                     <ComposedChart
                       data={cashFlowTimeline}
                       margin={{ top: 10, right: 12, left: 0, bottom: 0 }}
