@@ -6,8 +6,7 @@ URL: https://github.com/Jamespino20
 Last Update Date: July 11, 2026
 */
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import { X, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signIn } from "next-auth/react";
@@ -134,19 +133,14 @@ export function AuthModal({
                   <X className="h-5 w-5" />
                 </button>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4 }}
-                  className="space-y-1 z-10 relative"
-                >
+                <div className="space-y-1 z-10 relative animate-[fadeInUp_0.4s_ease-out]">
                   <h2 className="text-3xl font-black tracking-tighter uppercase leading-none italic">
                     CWL<span className="text-[#fd761a]">Hardware</span>
                   </h2>
                   <p className="text-[10px] text-white/50 font-bold uppercase tracking-[0.2em]">
                     Industrial Gateway • Secure Access v2.5
                   </p>
-                </motion.div>
+                </div>
 
                 <div className="absolute -right-4 -bottom-4 text-9xl font-black text-white/5 pointer-events-none select-none italic tracking-tighter">
                   FORGE
@@ -173,17 +167,7 @@ export function AuthModal({
 
               {/* Content */}
               <div className="px-8 py-6">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeTab}
-                    initial={{
-                      opacity: 0,
-                      x: activeTab === "login" ? -10 : 10,
-                    }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: activeTab === "login" ? 10 : -10 }}
-                    transition={{ duration: 0.3 }}
-                  >
+                <div className="animate-[fadeIn_0.3s_ease-out]" key={activeTab}>
                     {activeTab === "login" ? (
                       <form onSubmit={handleLogin} className="space-y-4">
                         <div className="space-y-2">
@@ -315,8 +299,7 @@ export function AuthModal({
                         </Button>
                       </form>
                     )}
-                  </motion.div>
-                </AnimatePresence>
+                </div>
               </div>
 
               {/* Status Footer */}

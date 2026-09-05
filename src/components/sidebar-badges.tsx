@@ -39,15 +39,17 @@ export function useSidebarBadges() {
 
   useEffect(() => {
     fetch();
-    const id = setInterval(fetch, 10000);
+    const id = setInterval(fetch, 30000);
     const onFocus = () => fetch();
     window.addEventListener("focus", onFocus);
-    document.addEventListener("visibilitychange", () => {
+    const onVisibility = () => {
       if (document.visibilityState === "visible") fetch();
-    });
+    };
+    document.addEventListener("visibilitychange", onVisibility);
     return () => {
       clearInterval(id);
       window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [fetch]);
 

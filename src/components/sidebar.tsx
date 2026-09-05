@@ -34,7 +34,6 @@ import { signOut } from "next-auth/react";
 import { useState, useEffect, useCallback } from "react";
 import { useSidebarBadges } from "@/components/sidebar-badges";
 import { canAccessPath } from "@/lib/access";
-import { motion, AnimatePresence } from "framer-motion";
 
 const groups = [
   {
@@ -261,28 +260,17 @@ export function DashboardSidebar({ collapsed, onToggle, role }: Props) {
       </div>
 
       {/* Mobile Drawer */}
-      <AnimatePresence>
-        {!collapsed && (
-          <div className="md:hidden">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={onToggle}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60]"
-            />
-            <motion.div
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 left-0 bottom-0 w-[280px] z-[70]"
-            >
-              {sidebarContent}
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      <div className="md:hidden">
+        <div
+          onClick={onToggle}
+          className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] transition-opacity duration-300 ${!collapsed ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+        />
+        <div
+          className={`fixed top-0 left-0 bottom-0 w-[280px] z-[70] transition-transform duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${!collapsed ? "translate-x-0" : "-translate-x-full"}`}
+        >
+          {sidebarContent}
+        </div>
+      </div>
     </>
   );
 }
