@@ -35,17 +35,29 @@ export async function sendMail({
   const from =
     process.env.SMTP_FROM || "CWL Hardware <noreply@cwlhardware.com>";
 
-  // Send individually so each recipient only sees "to me"
-  for (const recipient of uniqueRecipients) {
-    try {
+  // Single SMTP send for all recipients (BCC) so Hostinger's outbound
+  // rate limit counts one message instead of one per recipient.
+  try {
+    if (uniqueRecipients.length === 1) {
       await transporter.sendMail({
         from,
-        to: recipient,
+        to: uniqueRecipients[0],
         subject,
         html,
       });
-    } catch (error) {
-      console.error(`Failed to send email to ${recipient}:`, error);
+    } else {
+      await transporter.sendMail({
+        from,
+        to: uniqueRecipients[0],
+        bcc: uniqueRecipients.slice(1),
+        subject,
+        html,
+      });
     }
+  } catch (error) {
+    console.error(
+      `Failed to send email to ${uniqueRecipients.join(", ")}:`,
+      error,
+    );
   }
 }

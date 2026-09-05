@@ -38,6 +38,10 @@ import {
 import { cn } from "@/lib/utils";
 import { createTransaction, getReturnTransaction } from "@/actions";
 import { callAction } from "@/lib/client-action";
+import {
+  isStaleActionError,
+  reloadForNewDeployment,
+} from "@/lib/stale-action";
 import { PageHeader } from "@/components/ui/page-header";
 import { downloadReceipt, downloadReceiptPdf } from "@/lib/receipt";
 import { toast } from "sonner";
@@ -520,7 +524,12 @@ export function POSClient({
         setDone(null);
       }
     } catch (e: any) {
-      toast.error(e.message || "Transaction failed");
+      if (isStaleActionError(e)) {
+        toast.error("A new version was deployed — refreshing...");
+        reloadForNewDeployment();
+      } else {
+        toast.error(e.message || "Transaction failed");
+      }
     } finally {
       setCheckingOut(false);
     }
