@@ -150,6 +150,7 @@ export default function RegisterPage() {
                     value={form.sellerName}
                     onChange={(e) => update("sellerName", e.target.value)}
                     className="w-full rounded-lg border border-outline px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    autoComplete="name"
                     required
                   />
                 </div>
@@ -160,6 +161,7 @@ export default function RegisterPage() {
                     value={form.username}
                     onChange={(e) => update("username", e.target.value)}
                     className="w-full rounded-lg border border-outline px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    autoComplete="username"
                     required
                   />
                 </div>
@@ -171,6 +173,7 @@ export default function RegisterPage() {
                   value={form.email}
                   onChange={(e) => update("email", e.target.value)}
                   className="w-full rounded-lg border border-outline px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  autoComplete="email"
                   required
                 />
               </div>
@@ -183,6 +186,7 @@ export default function RegisterPage() {
                       value={form.password}
                       onChange={(e) => update("password", e.target.value)}
                       className="w-full rounded-lg border border-outline px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                      autoComplete="new-password"
                       required
                     />
                     <button
@@ -210,6 +214,7 @@ export default function RegisterPage() {
                         update("confirmPassword", e.target.value)
                       }
                       className="w-full rounded-lg border border-outline px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                      autoComplete="new-password"
                       required
                     />
                     <button
@@ -246,6 +251,7 @@ export default function RegisterPage() {
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
                   className="w-full rounded-lg border border-outline px-3 py-2 text-sm tracking-[0.35em] text-center"
+                  autoComplete="one-time-code"
                   required
                 />
               </div>

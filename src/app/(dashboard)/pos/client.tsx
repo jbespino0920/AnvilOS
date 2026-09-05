@@ -169,14 +169,19 @@ export function POSClient({
     setIsDragging(true);
     const startX = e.clientX;
     const startWidth = cartWidth;
+    let rafId = 0;
 
     const handleMouseMove = (me: MouseEvent) => {
+      if (rafId) cancelAnimationFrame(rafId);
       const diff = startX - me.clientX;
-      const newWidth = Math.min(Math.max(startWidth + diff, 280), 550);
-      setCartWidth(newWidth);
+      rafId = requestAnimationFrame(() => {
+        const newWidth = Math.min(Math.max(startWidth + diff, 280), 550);
+        setCartWidth(newWidth);
+      });
     };
 
     const handleMouseUp = () => {
+      if (rafId) cancelAnimationFrame(rafId);
       setIsDragging(false);
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);

@@ -19,6 +19,7 @@ const montserrat = localFont({
   ],
   variable: "--font-sans",
   display: "swap",
+  preload: false,
 });
 
 const jetbrainsMono = localFont({
@@ -26,6 +27,7 @@ const jetbrainsMono = localFont({
   weight: "400",
   variable: "--font-jetbrains-mono",
   display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -54,7 +56,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var _ric=window.requestIdleCallback;if(_ric){window.requestIdleCallback=function(cb,opts){return _ric.call(window,function(deadline){try{cb(deadline)}catch(e){console.warn("[web-vitals] suppressed:",e.message)}},opts)}}})();`,
+            __html: `(function(){window.addEventListener("error",function(e){try{var m=String((e&&e.message)||"");var s=String((e&&e.error&&e.error.stack)||"");if(m.indexOf("startTime")!==-1&&s.indexOf("reportAllChanges")!==-1){e.preventDefault();if(e.stopImmediatePropagation)e.stopImmediatePropagation();return false}}catch(_){}},true)})();`,
           }}
         />
       </head>
