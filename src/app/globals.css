@@ -6,6 +6,32 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat/Montserrat-Regular.ttf") format("truetype"),
+       url("/fonts/Montserrat/Montserrat-SemiBold.ttf") format("truetype"),
+       url("/fonts/Montserrat/Montserrat-Black.ttf") format("truetype");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-sans {
+  font-family: "Montserrat", sans-serif;
+}
+
+.font-mono {
+  font-family: "JetBrains Mono", monospace;
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.153 0.006 107.1);

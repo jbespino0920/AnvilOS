@@ -7,28 +7,8 @@ Last Update Date: July 16, 2026
 */
 
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-
-const montserrat = localFont({
-  src: [
-    { path: "../../public/fonts/Montserrat/Montserrat-Regular.ttf", weight: "400" },
-    { path: "../../public/fonts/Montserrat/Montserrat-SemiBold.ttf", weight: "600" },
-    { path: "../../public/fonts/Montserrat/Montserrat-Black.ttf", weight: "900" },
-  ],
-  variable: "--font-sans",
-  display: "swap",
-  preload: false,
-});
-
-const jetbrainsMono = localFont({
-  src: "../../public/fonts/JetBrainsMono-Regular.ttf",
-  weight: "400",
-  variable: "--font-jetbrains-mono",
-  display: "swap",
-  preload: false,
-});
 
 export const metadata: Metadata = {
   title: "CWL Hardware — POS & Inventory System",
@@ -50,7 +30,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("font-sans", montserrat.variable)}
+      className={cn("font-sans")}
       style={{ overflowX: "clip" }}
     >
       <head>
@@ -66,7 +46,7 @@ export default function RootLayout({
         }}
       />
       <body
-        className={`${jetbrainsMono.variable} antialiased`}
+        className="font-mono antialiased"
         style={{ overflowX: "clip" }}
       >
         <Providers>{children}</Providers>
