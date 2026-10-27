@@ -51,14 +51,28 @@ export async function getDashboardKpis() {
     prisma.product.count({ where: { isAvailable: true } }),
     prisma.transaction.count(),
     prisma.product.findMany({
-      select: { unitPrice: true, quantity: true },
+      where: { isAvailable: true },
+      select: { unitPrice: true, quantity: true, sellingPrice: true },
     }),
   ]);
 
+  // Cost-basis valuation: only active SKUs, unitPrice (cost) * qty.
+  // 805 SKUs have unitPrice=0 and contribute 0 — they are dirty data and excluded from value but counted in totalProducts.
+  // If cost is missing we do NOT fallback to sellingPrice to avoid double-inflating retail value (selling 16.8M vs cost 12.08M).
   const totalInventoryValue = products.reduce(
     (sum, p) => sum + Number(p.unitPrice || 0) * Number(p.quantity || 0),
     0,
   );
+  const totalInventoryRetailValue = products.reduce(
+    (sum, p) => sum + Number((p as any).sellingPrice || 0) * Number(p.quantity || 0),
+    0,
+  );
+  // Diagnostic: log skew when retail >> cost (rope data is inverted: unit >> sell)
+  if (totalInventoryRetailValue > totalInventoryValue * 1.5) {
+    console.warn(
+      `[dashboard] retail value (${totalInventoryRetailValue.toFixed(2)}) >> cost value (${totalInventoryValue.toFixed(2)}): check inverted unitPrice/sellingPrice on rope SKUs`,
+    );
+  }
 
   return {
     dailySales: Number(dailySales._sum.grandTotal || 0),
@@ -67,6 +81,7 @@ export async function getDashboardKpis() {
     totalProducts,
     totalTransactions,
     totalInventoryValue,
+    totalInventoryRetailValue,
   };
 }
 

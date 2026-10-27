@@ -98,7 +98,7 @@ export async function exportXLSX(filename: string, headers: string[], rows: stri
   const ws = wb.addWorksheet("Data");
 
   // --- Logo + Brand header row ---
-  ws.mergeCells(1, 1, 2, headers.length);
+  ws.mergeCells(1, 1, 1, headers.length);
   const brandCell = ws.getCell("A1");
   brandCell.value = `${COMPANY_NAME}  —  ${formatTitle(filename)}`;
   brandCell.font = { name: "Calibri", size: 14, bold: true, color: { argb: "FFFFFFFF" } };
