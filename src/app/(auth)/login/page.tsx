@@ -53,6 +53,12 @@ export default function LoginPage() {
       return;
     }
 
+    if (result.code === "RATE_LIMITED") {
+      setError("Too many login attempts. Please wait 15 minutes and try again.");
+      setLoading(false);
+      return;
+    }
+
     setError("Invalid username or password");
     setLoading(false);
   }
@@ -69,7 +75,11 @@ export default function LoginPage() {
     });
 
     if (result?.error) {
-      setError("Invalid authenticator code");
+      setError(
+        result.code === "RATE_LIMITED"
+          ? "Too many login attempts. Please wait 15 minutes and try again."
+          : "Invalid authenticator code",
+      );
       setLoading(false);
       return;
     }
@@ -194,10 +204,11 @@ export default function LoginPage() {
               type="text"
               inputMode="numeric"
               value={totp}
-              onChange={(e) => setTotp(e.target.value)}
+              onChange={(e) => setTotp(e.target.value.replace(/\D/g, ""))}
               className="w-full rounded-lg border border-[#e2e8f0] px-3 py-2.5 text-sm text-center text-[#0e212c] tracking-[0.3em] focus:outline-none focus:ring-2 focus:ring-[#fd761a]/20 focus:border-[#fd761a]"
               placeholder="000000"
               autoFocus
+              autoComplete="one-time-code"
               maxLength={6}
             />
             {error && (

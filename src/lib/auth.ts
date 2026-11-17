@@ -17,6 +17,10 @@ class TotpRequired extends CredentialsSignin {
   code = "TOTP_REQUIRED";
 }
 
+class LoginRateLimited extends CredentialsSignin {
+  code = "RATE_LIMITED";
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   debug: process.env.NODE_ENV === "development",
   secret: process.env.AUTH_SECRET,
@@ -82,6 +86,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         } catch (error) {
           if (error instanceof TotpRequired) {
             throw error;
+          }
+          if (error instanceof RateLimitError) {
+            throw new LoginRateLimited();
           }
           console.error("Database error during authorize:", error);
           return null;
