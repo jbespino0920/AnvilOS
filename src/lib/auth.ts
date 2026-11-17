@@ -80,6 +80,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             role: user.role,
           };
         } catch (error) {
+          if (error instanceof TotpRequired) {
+            throw error;
+          }
           console.error("Database error during authorize:", error);
           return null;
         }
