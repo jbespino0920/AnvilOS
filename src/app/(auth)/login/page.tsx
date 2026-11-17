@@ -47,7 +47,7 @@ export default function LoginPage() {
       return;
     }
 
-    if (result.error === "TOTP_REQUIRED") {
+    if (result.code === "TOTP_REQUIRED") {
       setShowTotpModal(true);
       setLoading(false);
       return;
